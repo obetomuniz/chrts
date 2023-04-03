@@ -1,7 +1,7 @@
 {
   "author": "Beto Muniz <contato@betomuniz.com>",
   "name": "chrts",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A simple chart web components library using SVG, CSS, and TypeScript.",
   "directories": {
     "doc": "docs",
@@ -10,7 +10,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "release": "release-it"
   },
   "keywords": [
     "web-component",
@@ -24,5 +26,26 @@
     "@release-it/conventional-changelog": "^5.1.1",
     "release-it": "^15.10.0",
     "typescript": "^5.0.3"
+  },
+  "release-it": {
+    "git": {
+      "commitMessage": "Release v${version}"
+    },
+    "github": {
+      "release": true,
+      "web": true
+    },
+    "npm": {
+      "publish": true
+    },
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "infile": "docs/CHANGELOG.md",
+        "header": "# Changelog",
+        "preset": {
+          "name": "conventionalcommits"
+        }
+      }
+    }
   }
 }
