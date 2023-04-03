@@ -16,7 +16,7 @@ npm install chrts
 First, import the library in your JavaScript or TypeScript file:
 
 ```typescript
-import { ChrtsPie, ChrtsBars, ChrtsGauge, ChrtsSegment } from "chrts"
+import { ChrtsPie, ChrtsBars, ChrtsSegment } from "chrts"
 ```
 
 Then, use the components in your HTML:
