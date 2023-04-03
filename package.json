@@ -7,10 +7,12 @@
     "doc": "docs",
     "lib": "lib"
   },
-  "main": "dist/index.js",
+  "type": "module",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "rollup -c",
     "prepublishOnly": "npm run build",
     "release": "release-it"
   },
@@ -24,7 +26,14 @@
   "license": "MIT",
   "devDependencies": {
     "@release-it/conventional-changelog": "^5.1.1",
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-terser": "^0.4.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@types/d3": "^7.4.0",
     "release-it": "^15.10.0",
+    "rollup-plugin-dts": "^5.3.0",
+    "rollup-plugin-filesize": "^10.0.0",
     "typescript": "^5.0.3"
   },
   "release-it": {

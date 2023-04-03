@@ -1,40 +1,46 @@
-class ChrtsBars extends HTMLElement {
-  constructor() {
-    super()
-  }
+declare const d3: typeof import("d3")
+import ChrtsBaseElement from "../base"
+import ChrtsSegment from "../segment"
 
-  connectedCallback() {
-    this.render()
-  }
-
+export class ChrtsBars extends ChrtsBaseElement {
   render() {
-    const segments = Array.from(this.querySelectorAll("chrts-segment"))
-    const totalValue = segments.reduce(
-      (sum, segment) => sum + parseFloat(segment.getAttribute("value") || "0"),
-      0
-    )
-    const barWidth = 100 / segments.length
+    console.log(123, this.style.width, this.style.height)
+    const width = parseInt(this.style.width) || 300
+    const height = parseInt(this.style.height) || 300
 
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg")
-    svg.setAttribute("viewBox", "0 0 100 100")
-    this.appendChild(svg)
+    this.svg
+      .attr("width", width)
+      .attr("height", height)
+      .attr("viewBox", `0 0 ${width} ${height}`)
 
-    segments.forEach((segment, index) => {
-      const value = parseFloat(segment.getAttribute("value") || "0")
-      const barHeight = (value / totalValue) * 100
+    const segments = Array.from(
+      this.querySelectorAll("chrts-segment")
+    ) as ChrtsSegment[]
 
-      const rect = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "rect"
+    const xScale = d3
+      .scaleBand()
+      .domain(segments.map((_, i) => i.toString()))
+      .range([0, width])
+      .padding(0.1)
+
+    const yScale = d3
+      .scaleLinear()
+      .domain([0, d3.max(segments, (d) => parseInt(d.getAttribute("value")!))!])
+      .range([height, 0])
+
+    this.svg
+      .selectAll(".bar")
+      .data(segments)
+      .join("rect")
+      .attr("class", "bar")
+      .attr("x", (_, i) => xScale(i.toString())!)
+      .attr("y", (d) => yScale(parseInt(d.getAttribute("value")!)))
+      .attr("width", xScale.bandwidth())
+      .attr(
+        "height",
+        (d) => height - yScale(parseInt(d.getAttribute("value")!))
       )
-      rect.setAttribute("x", `${index * barWidth}`)
-      rect.setAttribute("y", `${100 - barHeight}`)
-      rect.setAttribute("width", `${barWidth}`)
-      rect.setAttribute("height", `${barHeight}`)
-      rect.setAttribute("fill", segment.getAttribute("color") || "black")
-
-      svg.appendChild(rect)
-    })
+      .attr("fill", (d) => d.getAttribute("color")!)
   }
 }
 

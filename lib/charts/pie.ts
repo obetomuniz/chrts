@@ -1,53 +1,40 @@
-class ChrtsPie extends HTMLElement {
-  constructor() {
-    super()
-  }
+declare const d3: typeof import("d3")
+import ChrtsBaseElement from "../base"
+import ChrtsSegment from "../segment"
 
-  connectedCallback() {
-    const segments = Array.from(this.querySelectorAll("chrts-segment"))
+export class ChrtsPie extends ChrtsBaseElement {
+  render() {
+    const width = parseInt(this.style.width) || 300
+    const height = parseInt(this.style.height) || 300
 
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg")
-    svg.setAttribute("viewBox", "0 0 100 100")
-    this.appendChild(svg)
+    this.svg
+      .attr("width", width)
+      .attr("height", height)
+      .attr("viewBox", `0 0 ${width} ${height}`)
 
-    const totalValue = segments.reduce(
-      (sum, segment) => sum + parseFloat(segment.getAttribute("value") || "0"),
-      0
-    )
-    let accumulatedAngle = 0
+    const radius = Math.min(width, height) / 2
+    const segments = Array.from(
+      this.querySelectorAll("chrts-segment")
+    ) as ChrtsSegment[]
 
-    segments.forEach((segment) => {
-      const value = parseFloat(segment.getAttribute("value") || "0")
-      const segmentAngle = (value / totalValue) * 360
+    const pie = d3
+      .pie<ChrtsSegment>()
+      .value((d) => parseInt(d.getAttribute("value")!))
+    const arc = d3
+      .arc<d3.PieArcDatum<ChrtsSegment>>()
+      .innerRadius(0)
+      .outerRadius(radius)
 
-      const startAngle = accumulatedAngle - 90
-      const endAngle = accumulatedAngle + segmentAngle - 90
+    const g = this.svg
+      .append("g")
+      .attr("transform", `translate(${width / 2}, ${height / 2})`)
 
-      const largeArcFlag = segmentAngle > 180 ? 1 : 0
-
-      const x1 = 50 + 50 * Math.cos(startAngle * (Math.PI / 180))
-      const y1 = 50 + 50 * Math.sin(startAngle * (Math.PI / 180))
-      const x2 = 50 + 50 * Math.cos(endAngle * (Math.PI / 180))
-      const y2 = 50 + 50 * Math.sin(endAngle * (Math.PI / 180))
-
-      const pathData = `
-        M50,50
-        L${x1},${y1}
-        A50,50 0 ${largeArcFlag},1 ${x2},${y2}
-        Z
-      `
-
-      const path = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "path"
-      )
-      path.setAttribute("d", pathData)
-      path.setAttribute("fill", segment.getAttribute("color") || "black")
-
-      svg.appendChild(path)
-
-      accumulatedAngle += segmentAngle
-    })
+    g.selectAll(".arc")
+      .data(pie(segments))
+      .join("path")
+      .attr("class", "arc")
+      .attr("d", arc)
+      .attr("fill", (d) => d.data.getAttribute("color")!)
   }
 }
 

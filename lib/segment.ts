@@ -1,24 +1,33 @@
 class ChrtsSegment extends HTMLElement {
-  constructor() {
-    super()
+  color: string = ""
+  label: string = ""
+  value: string = ""
+  offset: string = ""
+
+  static get observedAttributes() {
+    return ["color", "label", "value", "offset"]
   }
 
-  connectedCallback() {
-    this.style.display = "none"
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    this.setAttributeValue(name, newValue)
   }
 
-  get color(): string {
-    return this.getAttribute("color") || ""
-  }
-
-  get label(): string {
-    return this.getAttribute("label") || ""
-  }
-
-  get value(): number {
-    return parseFloat(this.getAttribute("value") || "0")
+  private setAttributeValue(name: string, value: string) {
+    switch (name) {
+      case "color":
+        this.color = value
+        break
+      case "label":
+        this.label = value
+        break
+      case "value":
+        this.value = value
+        break
+      case "offset":
+        this.offset = value
+        break
+    }
   }
 }
 
-customElements.define("chrts-segment", ChrtsSegment)
 export default ChrtsSegment
