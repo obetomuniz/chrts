@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>chrts Example</title>
+    <style>
+      chrts-pie,
+      chrts-bars,
+      chrts-gauge {
+        display: inline-block;
+        width: 200px;
+        height: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <chrts-pie>
+      <chrts-segment color="red" label="Red" value="120"></chrts-segment>
+      <chrts-segment color="blue" label="Blue" value="80"></chrts-segment>
+    </chrts-pie>
+    <chrts-bars>
+      <chrts-segment color="green" label="Green" value="50"></chrts-segment>
+      <chrts-segment color="purple" label="Purple" value="100"></chrts-segment>
+      <chrts-segment color="#ff0" label="Yellow" value="250"></chrts-segment>
+    </chrts-bars>
+
+    <script type="module">
+      import "../../dist/charts/pie.js"
+      import "../../dist/charts/bars.js"
+      // import {
+      //   ChrtsPie,
+      //   ChrtsBars,
+      //   ChrtsGauge,
+      //   ChrtsSegment,
+      // } from "../../dist/index.js"
+    </script>
+  </body>
+</html>

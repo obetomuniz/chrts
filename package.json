@@ -1,0 +1,28 @@
+{
+  "author": "Beto Muniz <contato@betomuniz.com>",
+  "name": "chrts",
+  "version": "1.0.0",
+  "description": "A simple chart web components library using SVG, CSS, and TypeScript.",
+  "directories": {
+    "doc": "docs",
+    "lib": "lib"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "web-component",
+    "bar-chart",
+    "pie-chart",
+    "gauge-chart",
+    "svg"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@release-it/conventional-changelog": "^5.1.1",
+    "release-it": "^15.10.0",
+    "typescript": "^5.0.3"
+  }
+}
