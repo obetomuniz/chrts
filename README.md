@@ -1,6 +1,6 @@
 # chrts
 
-A simple chart web components library using SVG, CSS, and TypeScript.
+Minimalist charts as Web Components using SVG, CSS, and TypeScript.
 
 <img width="440" alt="Screenshot 2023-04-03 at 01 08 53" src="https://user-images.githubusercontent.com/1680157/229409359-cf9dc889-0a64-41b9-9f08-5fdc02b5b2b8.png">
 
